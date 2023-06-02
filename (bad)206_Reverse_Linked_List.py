@@ -1,27 +1,6 @@
 from typing import List, Set, Dict, Optional
 
 
-if __name__ == "__main__":
-    o = Solution()
-
-
-# Definition for a binary tree node.
-class TreeNode(object):
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left: TreeNode = left
-        self.right: TreeNode = right
-
-    def __str__(self):
-        out = str(self.val)
-
-        if self.left:
-            out += str(self.left)
-        if self.right:
-            out += str(self.right)
-        return out
-
-
 class ListNode(object):
     @classmethod
     def fromList(cls, items: list):
@@ -42,3 +21,25 @@ class ListNode(object):
 
     def __str__(self):
         return "[" + self.str()
+
+
+class Solution(object):
+    def reverseList(self, head : ListNode):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        temp = []
+        while head.next:
+            temp.append(head.val)
+            head = head.next
+        out = ListNode(temp[-1])
+        for item in reversed(temp[:-1]):
+            node = ListNode(item)
+            out.next = node
+            out = node
+            
+        return out
+
+if __name__ == "__main__":
+    o = Solution()
