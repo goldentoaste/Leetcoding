@@ -1,4 +1,12 @@
-from typing import List, Set, Dict, Optional
+from typing import List, Set, Dict, Optional, Self
+
+
+class Solution(object):
+    def diameterOfBinaryTree(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
 
 
 if __name__ == "__main__":
@@ -37,26 +45,3 @@ class TreeNode(object):
         if self.right:
             out += str(self.right)
         return out
-
-
-
-class ListNode(object):
-    @classmethod
-    def fromList(cls, items: list):
-        if not items:
-            return None
-        root = cls(items[0])
-        for item in items[1:]:
-            root.next = cls(item)
-            root = item
-        return root
-
-    def __init__(self, val=0, next=None):
-        self.val: int = val
-        self.next: Optional[ListNode] = next
-
-    def str(self):
-        return f"{self.val}" + (f", {self.next.str()}" if self.next else "]")
-
-    def __str__(self):
-        return "[" + self.str()
