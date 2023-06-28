@@ -1,10 +1,5 @@
 from typing import List, Set, Dict, Optional
 
-
-if __name__ == "__main__":
-    o = Solution()
-
-
 # Definition for a binary tree node.
 class TreeNode(object):
     def __init__(self, val=0, left=None, right=None):
@@ -46,24 +41,21 @@ class TreeNode(object):
         return out
 
 
+class Solution(object):
+    def maxDepth(self, root: TreeNode):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        if not root:
+            return 0
+        
+        return max(self.maxDepth(root.left), self.maxDepth((root.right))) + 1
+        
 
-class ListNode(object):
-    @classmethod
-    def fromList(cls, items: list):
-        if not items:
-            return None
-        root = cls(items[0])
-        for item in items[1:]:
-            root.next = cls(item)
-            root = item
-        return root
+if __name__ == "__main__":
+    o = Solution()
 
-    def __init__(self, val=0, next=None):
-        self.val: int = val
-        self.next: Optional[ListNode] = next
-
-    def str(self):
-        return f"{self.val}" + (f", {self.next.str()}" if self.next else "]")
-
-    def __str__(self):
-        return "[" + self.str()
+    node = TreeNode.fromList([3,9,20,None,None,15,7])
+    
+    print(o.maxDepth((node)))
