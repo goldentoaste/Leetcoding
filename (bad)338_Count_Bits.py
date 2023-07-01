@@ -1,4 +1,4 @@
-class Solution(object):
+class SolutionOld(object):
     def countBits(self, n: int):
         """
         :type n: int
@@ -35,6 +35,28 @@ class Solution(object):
                         return out
 
         return out
+
+
+class Solution(object):
+    def countBits(self, n: int):
+        mem = [0] * (n + 1)
+        for i in reversed(range(1, n + 1)):
+            if mem[i] != 0:
+                continue
+            indices = []
+            while i > 0:
+                if mem[i] != 0:
+                    for index in indices:
+                        mem[index] += mem[i]
+                    break   
+                indices.append(i)
+                if i & 1:
+                    for index in indices:
+                        mem[index] += 1
+                i = i//2
+
+
+        return mem
 
 
 if __name__ == "__main__":
