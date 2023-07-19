@@ -61,7 +61,7 @@ class Solution(object):
 
         self.fillTree(p, pTree)
         self.fillTree(q, qTree)
-
+        print(pTree, qTree)
         return pTree == qTree
 
     def fillTree(self, node: TreeNode, res: list):
