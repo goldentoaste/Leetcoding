@@ -7,7 +7,7 @@ class Solution:
 
         if len(s) < len(p):
             return []
-        ref = Counter(p)
+        ref = Counter(p)  # use array instead
         cur = Counter(s[: len(p)])
 
         out = []

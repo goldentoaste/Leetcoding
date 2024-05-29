@@ -2,12 +2,10 @@ from typing import List, Set, Dict, Optional
 
 
 class Solution:
-    def findMinArrowShots(self, points: List[List[int]]) -> int:
-        
+    def findMinArrowShots(self, points: List[List[int]]) -> int:     
         points.sort(key=lambda item: item[0])
         prev = points[0]
         arrows = 1 # at least 1 arrow is needed for the initial balloon
-        print(points)
         for cur in points[1:]:
             if cur[0] > prev[1]: # current baloon doesnt intersect at all
                 arrows += 1
