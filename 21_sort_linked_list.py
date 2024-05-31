@@ -77,9 +77,3 @@ if __name__ == "__main__":
     )
 
 
-'''
-In this position I was responsible for updating one of the company's legacy web app to a more modern Java web framework called Vaadins. I created and updated more than 20 functional and interactive web pages, as well as updating various backend database operations, which was on Postgres with Hibernate as ORM. I have also participated in the team's code reviews and Jira sprint planning, which to me provided a very useful insight to workings of a professional dev team.
-'''
-'''
-At this position I was developing a desktop image and data analysis program using Python and QT for GUI, and GraphQL to communicate with backend. I have used libraries such as OpenCV and SciPy to perform data anaylsis, and create widgets to visualize results with charts and export spreadsheet data. I have also implemented an asynchronous task management system, increase system through put while keeping the codebase extendable for future development.
-'''
