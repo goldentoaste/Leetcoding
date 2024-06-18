@@ -16,4 +16,4 @@ class Solution:
 
 if __name__ == "__main__":
     o = Solution()
-    print(o.subsets([1, 2, 3]))
+    print(o.subsets([1, 2, 2]))

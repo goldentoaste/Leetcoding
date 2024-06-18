@@ -1,3 +1,4 @@
+
 from typing import List, Set, Dict, Optional
 
 
@@ -7,6 +8,7 @@ class Solution:
         out = []
 
         cur = []
+
         def inner(start):
             if len(cur) == k:
                 out.append(cur[:])
