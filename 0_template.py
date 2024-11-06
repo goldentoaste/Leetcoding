@@ -159,3 +159,10 @@ class ListNode(object):
 
     def __str__(self):
         return "[" + self.str()
+
+
+def matrixPrint(mat: List[List[int]]):
+    for row in mat:
+        print(" ".join([(str(c) if str(c) != "" else "_") for c in row]))
+
+
