@@ -11,7 +11,10 @@ class Solution(object):
         lastVal = nums[0]  # max arr sum in which last element was used
         maxVal = nums[0]
         for n in nums[1:]:
+            # INDEX tracking, whenever n is chosen, ie, start a new subarr, update start
             lastVal = max(n, n + lastVal)
+
+            # INDEX tracking, whenever maxVal is updated, update end of subarr since its being extended.
             maxVal = max(lastVal, maxVal)
 
         return maxVal
