@@ -19,7 +19,7 @@ class Solution(object):
 
         return maxVal
 
-
+# CALL ME KADANE THOUGH
 if __name__ == "__main__":
     o = Solution()
     print(o.maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))  # expect 6
