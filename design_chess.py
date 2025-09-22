@@ -24,6 +24,7 @@ class ChessGame:
     '''
     hold game states
     read input
+    play move
     start/end games
     
     call supporting functions and class to make a game actions happen
