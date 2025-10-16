@@ -38,10 +38,10 @@ class TreeNode(object):
                 right = None
 
         return root
-    
+
     def __str__(self):
         return f'TreeNode({self.val})'
-    
+
     '''
     Thank you :pray:
     https://stackoverflow.com/a/54074933/12471420
@@ -127,7 +127,7 @@ class ListNode(object):
     def __init__(self, val=0, next=None):
         self.val: int = val
         self.next: Optional[ListNode] = next
-        
+
     def __getitem__(self, key: int):
         if key >= 0:
             return self.getByIndex(key)
@@ -141,14 +141,14 @@ class ListNode(object):
                 raise IndexError("reached end of linked list")
             head = head.next
         return head
-    
+
     def getByIndexReversed(self, key:int):
         head = self
         count = 0
         while head is not None:
             head = head.next
             count += 1
-        
+
         head = self
         for _ in range(count - key):
             head = head.next
@@ -158,7 +158,7 @@ class ListNode(object):
         return f"{self.val}" + (f", {self.next.str()}" if self.next else "]")
 
     def __str__(self):
-        return "[" + self.str()
+        return "LinkedList[" + self.str()
 
 
 def matrixPrint(mat: List[List[int]]):
