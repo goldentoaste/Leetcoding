@@ -1,10 +1,7 @@
+
 from typing import List, Set, Dict, Optional
-null = None
 
-
-if __name__ == "__main__":
-    o = Solution()
-
+# Definition for a binary tree node.
 class TreeNode(object):
     def __init__(self, val=0, left=None, right=None):
         self.val = val
@@ -21,7 +18,7 @@ class TreeNode(object):
 
             if l:
                 left = cls(l.pop(0))
-                if left.val is not None:
+                if left.val:
                     item.left = left
                     queue.append(left)
             else:
@@ -29,7 +26,7 @@ class TreeNode(object):
 
             if l:
                 right = cls(l.pop(0))
-                if right.val is not None:
+                if right.val:
                     item.right = right
                     queue.append(right)
             else:
@@ -108,60 +105,86 @@ class TreeNode(object):
         lines = [first_line, second_line] + [a + u * ' ' + b for a, b in zipped_lines]
         return lines, n + m + u, max(p, q) + 2, n + u // 2
 
+class Solution(object):
+    def isValidBST(self, root : TreeNode):
+        """
+        :type root: Optional[TreeNode]
+        :rtype: bool
+        """
+
+        '''
+        2 strats:
+        1. in order traversal of the tree, check if the tree follows the right sorted order.
+        2. get the max of left node, and min of right node. Verify max of left is less than min of right.
+        '''
+
+        return self.validate1(root) and self.validate2(root)
+
+    def validate2(self, root: TreeNode):
+        '''
+        is a bst if max of left is still less than min of right
+        '''
+
+        def traverse( node: TreeNode):
+            leftMin = float('inf')
+            leftMax = float('-inf')
+
+            rightMin = float('inf')
+            rightMax = float('-inf')
+
+            if node.left:
+                left = traverse(node.left)
+                if not left:
+                    return None
+                leftMin = left[0]
+                leftMax = left[1]
+
+            if node.right:
+                right = traverse(node.right)
+                if not right:
+                    return None
+                rightMin = right[0]
+                rightMax = right[1]
+
+            if leftMax >= node.val or rightMin <= node.val:
+                return None
+
+            return min(leftMin, node.val), max(rightMax, node.val)
+
+        return traverse(root) is not None
+
+    def validate1(self, root: TreeNode):
+        '''
+        is a bst iff in order traverse is sorted.
+        '''
+
+        last = float("-inf")
+        def traverse(node: TreeNode):
+            nonlocal last
+            if not node:
+                return True
+            leftvalid = traverse(node.left)
+
+            if not leftvalid or last >= node.val:
+                return False
+
+            last = node.val
+
+            return traverse(node.right)
+
+        return traverse(root)
 
 
+if __name__ == "__main__":
+    o = Solution()
+    tree = TreeNode.fromList([5,1,4,None,None,3,6]) # not a bst
+    tree.display()
+    print(o.isValidBST(tree))
 
-class ListNode(object):
-    @classmethod
-    def fromList(cls, items: list):
-        if not items:
-            return None
-        root = cls(items[0])
-        cur = root
-        for item in items[1:]:
-            cur.next = cls(item)
-            cur = cur.next
-        return root
+    tree2 = TreeNode.fromList([3, 2, 5, None, None, 4, 6])
+    tree2.display()
+    print(o.isValidBST(tree2))
 
-    def __init__(self, val=0, next=None):
-        self.val: int = val
-        self.next: Optional[ListNode] = next
-
-    def __getitem__(self, key: int):
-        if key >= 0:
-            return self.getByIndex(key)
-        else:
-            return self.getByIndexReversed(-key)
-
-    def getByIndex(self, key:int):
-        head = self
-        for i in range(key):
-            if head is None:
-                raise IndexError("reached end of linked list")
-            head = head.next
-        return head
-
-    def getByIndexReversed(self, key:int):
-        head = self
-        count = 0
-        while head is not None:
-            head = head.next
-            count += 1
-
-        head = self
-        for _ in range(count - key):
-            head = head.next
-        return head
-
-    def str(self):
-        return f"{self.val}" + (f", {self.next.str()}" if self.next else "]")
-
-    def __str__(self):
-        return "LinkedList[" + self.str()
-
-
-def matrixPrint(mat: List[List[int]]):
-    for row in mat:
-        print(" ".join([(str(c) if str(c) != "" else "_") for c in row]))
-
-
+    tree3 = TreeNode.fromList([32,26,47,19,None,None,56,None,27])
+    tree3.display()
+    print(o.isValidBST(tree3))
