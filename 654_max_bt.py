@@ -1,10 +1,7 @@
+
 from typing import List, Set, Dict, Optional
 
-
-
-if __name__ == "__main__":
-    o = Solution()
-
+# Definition for a binary tree node.
 class TreeNode(object):
     def __init__(self, val=0, left=None, right=None):
         self.val = val
@@ -21,7 +18,7 @@ class TreeNode(object):
 
             if l:
                 left = cls(l.pop(0))
-                if left.val is not None:
+                if left.val:
                     item.left = left
                     queue.append(left)
             else:
@@ -29,7 +26,7 @@ class TreeNode(object):
 
             if l:
                 right = cls(l.pop(0))
-                if right.val is not None:
+                if right.val:
                     item.right = right
                     queue.append(right)
             else:
@@ -111,57 +108,42 @@ class TreeNode(object):
 
 
 
-class ListNode(object):
-    @classmethod
-    def fromList(cls, items: list):
-        if not items:
-            return None
-        root = cls(items[0])
-        cur = root
-        for item in items[1:]:
-            cur.next = cls(item)
-            cur = cur.next
-        return root
 
-    def __init__(self, val=0, next=None):
-        self.val: int = val
-        self.next: Optional[ListNode] = next
+class Solution:
+    def constructMaximumBinaryTree(self, nums: List[int]) -> Optional[TreeNode]:
+        # should nlgn in total, since the arr is getting bisected each time in each level of tree, height of tree is about lg n
+        # in each level, maxIndex is called on segments of nums, so about o(n)
+        def maxIndex(arr):
+            peak = arr[0]
+            peakIdx = 0
+            for i, n in enumerate(arr):
+                if n > peak:
+                    peak = n
+                    peakIdx = i
+            return peakIdx
         
-    def __getitem__(self, key: int):
-        if key >= 0:
-            return self.getByIndex(key)
-        else:
-            return self.getByIndexReversed(-key)
+        def build(arr):
+            '''
+            this method will fill the missing value and call children
+            '''
+            if not arr:
+                return None
+            
+            peakIdx = maxIndex(arr)
 
-    def getByIndex(self, key:int):
-        head = self
-        for i in range(key):
-            if head is None:
-                raise IndexError("reached end of linked list")
-            head = head.next
-        return head
-    
-    def getByIndexReversed(self, key:int):
-        head = self
-        count = 0
-        while head is not None:
-            head = head.next
-            count += 1
-        
-        head = self
-        for _ in range(count - key):
-            head = head.next
-        return head
+            rootNode = TreeNode(arr[peakIdx])
 
-    def str(self):
-        return f"{self.val}" + (f", {self.next.str()}" if self.next else "]")
+            left = build(arr[:peakIdx])
+            right = build(arr[peakIdx + 1:])
+            rootNode.left = left
+            rootNode.right = right
 
-    def __str__(self):
-        return "[" + self.str()
+            return rootNode
+
+        return build(nums)
 
 
-def matrixPrint(mat: List[List[int]]):
-    for row in mat:
-        print(" ".join([(str(c) if str(c) != "" else "_") for c in row]))
-
-
+if __name__ == "__main__":
+    o = Solution()
+    res = o.constructMaximumBinaryTree([3,2,1,6,0,5])
+    res.display()
