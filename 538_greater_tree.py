@@ -1,10 +1,8 @@
+
+
+
 from typing import List, Set, Dict, Optional
-null = None
-
-
-if __name__ == "__main__":
-    o = Solution()
-
+# Definition for a binary tree node.
 class TreeNode(object):
     def __init__(self, val=0, left=None, right=None):
         self.val = val
@@ -36,10 +34,10 @@ class TreeNode(object):
                 right = None
 
         return root
-
+    
     def __str__(self):
         return f'TreeNode({self.val})'
-
+    
     '''
     Thank you :pray:
     https://stackoverflow.com/a/54074933/12471420
@@ -109,59 +107,47 @@ class TreeNode(object):
         return lines, n + m + u, max(p, q) + 2, n + u // 2
 
 
+class Solution:
+    def convertBST(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        '''
+        first find total sum of the tree
+        
+        then traverse in in order. Since BST has the property of in-order = sorted order.
+        Each node is current total, then after visit, subtract from total.
+        '''
+        
+        def totalSum(node: TreeNode):
+            if not node:
+                return 0
+            
+            return node.val + totalSum(node.left) + totalSum(node.right)
+        
+        total = totalSum(root)
 
+        def inOrder(node: TreeNode):
+            nonlocal total
+            if not node:
+                return # no action for children of leaf.
+            
+            # visit left first
+            inOrder(node.left)
 
-class ListNode(object):
-    @classmethod
-    def fromList(cls, items: list):
-        if not items:
-            return None
-        root = cls(items[0])
-        cur = root
-        for item in items[1:]:
-            cur.next = cls(item)
-            cur = cur.next
+            # process current node
+            temp = node.val
+            node.val = total
+
+            # subtract to remove current node's value from total
+            total -= temp
+
+            inOrder(node.right)
+
+        inOrder(root)
         return root
 
-    def __init__(self, val=0, next=None):
-        self.val: int = val
-        self.next: Optional[ListNode] = next
 
-    def __getitem__(self, key: int):
-        if key >= 0:
-            return self.getByIndex(key)
-        else:
-            return self.getByIndexReversed(-key)
-
-    def getByIndex(self, key:int):
-        head = self
-        for i in range(key):
-            if head is None:
-                raise IndexError("reached end of linked list")
-            head = head.next
-        return head
-
-    def getByIndexReversed(self, key:int):
-        head = self
-        count = 0
-        while head is not None:
-            head = head.next
-            count += 1
-
-        head = self
-        for _ in range(count - key):
-            head = head.next
-        return head
-
-    def str(self):
-        return f"{self.val}" + (f", {self.next.str()}" if self.next else "]")
-
-    def __str__(self):
-        return "LinkedList[" + self.str()
-
-
-def matrixPrint(mat: List[List[int]]):
-    for row in mat:
-        print(" ".join([(str(c) if str(c) != "" else "_") for c in row]))
-
-
+if __name__ == "__main__":
+    o = Solution()
+    tree = TreeNode.fromList([4,1,6,0,2,5,7,None,None,None,3,None,None,None,8])
+    tree.display()
+    o.convertBST(tree)
+    tree.display()

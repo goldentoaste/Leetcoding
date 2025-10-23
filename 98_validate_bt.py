@@ -1,9 +1,7 @@
+
+
 from typing import List, Set, Dict, Optional
-null = None
 
-
-if __name__ == "__main__":
-    o = Solution()
 
 class TreeNode(object):
     def __init__(self, val=0, left=None, right=None):
@@ -36,10 +34,10 @@ class TreeNode(object):
                 right = None
 
         return root
-
+    
     def __str__(self):
         return f'TreeNode({self.val})'
-
+    
     '''
     Thank you :pray:
     https://stackoverflow.com/a/54074933/12471420
@@ -109,59 +107,36 @@ class TreeNode(object):
         return lines, n + m + u, max(p, q) + 2, n + u // 2
 
 
+class Solution:
+    def isValidBST(self, root: Optional[TreeNode]) -> bool:
+        '''
+        use bst's inorder = sorted property.
+        '''
+        lastNum = float("-inf")
+
+        def validate( node: TreeNode):
+            nonlocal lastNum
+            if not node:
+                return True
+
+            left = validate(node.left)
+            if not left:
+                return False
+            
+            if node.val <= lastNum:
+                return False
+            lastNum = node.val
+
+            # left is valid, current val is consistent with previous
+            # this subtree is valid if right side is.
+            return validate(node.right)
+
+        return validate(root)
 
 
-class ListNode(object):
-    @classmethod
-    def fromList(cls, items: list):
-        if not items:
-            return None
-        root = cls(items[0])
-        cur = root
-        for item in items[1:]:
-            cur.next = cls(item)
-            cur = cur.next
-        return root
-
-    def __init__(self, val=0, next=None):
-        self.val: int = val
-        self.next: Optional[ListNode] = next
-
-    def __getitem__(self, key: int):
-        if key >= 0:
-            return self.getByIndex(key)
-        else:
-            return self.getByIndexReversed(-key)
-
-    def getByIndex(self, key:int):
-        head = self
-        for i in range(key):
-            if head is None:
-                raise IndexError("reached end of linked list")
-            head = head.next
-        return head
-
-    def getByIndexReversed(self, key:int):
-        head = self
-        count = 0
-        while head is not None:
-            head = head.next
-            count += 1
-
-        head = self
-        for _ in range(count - key):
-            head = head.next
-        return head
-
-    def str(self):
-        return f"{self.val}" + (f", {self.next.str()}" if self.next else "]")
-
-    def __str__(self):
-        return "LinkedList[" + self.str()
-
-
-def matrixPrint(mat: List[List[int]]):
-    for row in mat:
-        print(" ".join([(str(c) if str(c) != "" else "_") for c in row]))
-
-
+if __name__ == "__main__":
+    o = Solution()
+    # tree = TreeNode.fromList([5,1,4,None, None,3,6])
+    tree = TreeNode.fromList([5,4,6,None,None,3,7])
+    tree.display()
+    print(o.isValidBST(tree))
