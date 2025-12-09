@@ -109,8 +109,6 @@ class TreeNode(object):
         return lines, n + m + u, max(p, q) + 2, n + u // 2
 
 
-
-
 class ListNode(object):
     @classmethod
     def fromList(cls, items: list):
@@ -159,9 +157,9 @@ class ListNode(object):
     def __str__(self):
         return "LinkedList[" + self.str()
 
+    def __repr__(self):
+        return f"ListNode({self.val})"
 
 def matrixPrint(mat: List[List[int]]):
     for row in mat:
         print(" ".join([(str(c) if str(c) != "" else "_") for c in row]))
-
-
