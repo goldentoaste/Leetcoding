@@ -22,8 +22,6 @@ class Solution:
                 currentCap -= w
             return days
 
-            return days
-
         low = max(weights)
         high = sum(weights)  # over estimate upper bound
 

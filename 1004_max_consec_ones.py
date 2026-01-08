@@ -5,7 +5,6 @@ null = None
 
 class Solution:
     def longestOnes(self, nums: List[int], k: int) -> int:
-
         zerosAllowed = k
         maxSize = 0
 

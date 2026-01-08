@@ -4,15 +4,9 @@ from math import ceil
 class Solution(object):
     def minEatingSpeed(self, piles, h):
         """
-        :type piles: List[int]
-        :type h: int
-        :rtype: int
-        """
-
-        """
         game plan, model this question using a monotonic function, then binary search on its domain
 
-        let f(k) -> _h be the function of how many hours koko needs to eat all the nanas 
+        let f(k) -> _h be the function of how many hours koko needs to eat all the nanas
         when can now use binary search for the minimum k such that f(k) = k
         """
 
@@ -27,7 +21,6 @@ class Solution(object):
         while low < high:
             candidate = low + (high - low) // 2
             hours = eat(piles, candidate)
-            print(candidate, hours)
             if hours == h:
                 high = candidate  # can finish
             elif hours > h:  # eating too slow, need more hours to finish. So we choose to search faster speed
