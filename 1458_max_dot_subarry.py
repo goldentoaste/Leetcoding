@@ -19,9 +19,9 @@ class Solution:
                 recurse(i1, i2 - 1),
             )
 
-            mem[((i1, i2))] = best
+            mem[(i1, i2)] = best
             return best
-        
+
         return recurse(len(nums1) - 1, len(nums2) - 1)
 
     def maxDotProduct1(self, nums1: List[int], nums2: List[int]) -> int:
