@@ -1,46 +1,46 @@
-# Week 2 — LeetCode Practice
+# Week 3 — LeetCode Practice
 
-> **Current focus:** Medium-level hash-map, two-pointer, and sliding-window recognition
+> **Current focus:** Medium-level sliding-window recognition and window-boundary control
 >
-> **Goal:** Classify each problem before coding, complete two Medium attempts, and reinforce one core pattern through a cold re-solve.
+> **Goal:** Classify contiguous-range problems, state a window invariant, complete two Medium attempts, and reinforce the pattern through a cold re-solve.
 >
 > **Time budget:** 2 hours total
 
 ## Why this level
 
-Week 1's problems are deliberately basic pattern primers. This week moves directly to interview-relevant Mediums while staying within the same related family of patterns. The goal is to reason from cues and invariants, not to accumulate Easy completions.
+Week 2 established hash-map grouping and the basic no-duplicates sliding window. This week focuses on the key distinction within sliding windows: whether the window is repaired when it violates an upper-bound constraint or shrunk after it reaches a lower-bound target. The goal is to reason from cues and invariants, not to memorize templates.
 
 ## Schedule
 
 | Session | Time | Assignment | Definition of done |
 |---|---:|---|---|
-| 1 | 60 min | **Group Anagrams** | Attempt for 30–35 minutes; implement a hashable frequency/signature key; explain why equal signatures form exactly one group. |
-| 2 | 60 min | **Longest Substring Without Repeating Characters** + a 10-minute cold re-solve of Group Anagrams | Attempt the Medium for 30–35 minutes; articulate the sliding-window invariant before coding; re-solve the prior problem without notes. |
+| 1 | 60 min | **Minimum Size Subarray Sum** | Attempt for 30–35 minutes; use the positivity of values to justify when the left boundary may move; explain the valid-window invariant. |
+| 2 | 60 min | **Longest Repeating Character Replacement** + a 10-minute cold re-solve of Minimum Size Subarray Sum | Attempt the Medium for 30–35 minutes; maintain counts and a maximum frequency; articulate why a window needing more than `k` replacements must shrink. |
 
 ## Current problem set
 
-### 1. Group Anagrams
-- **LeetCode:** [Group Anagrams](https://leetcode.com/problems/group-anagrams/)
+### 1. Minimum Size Subarray Sum
+- **LeetCode:** [Minimum Size Subarray Sum](https://leetcode.com/problems/minimum-size-subarray-sum/)
 - **Difficulty:** Medium
-- **Primary pattern:** Hash map + canonical representation / frequency signature
-- **Recognition cues:** Partition strings into equivalence classes; order within each string does not matter; all members of a group share the same character multiset.
+- **Primary pattern:** Sliding window + running sum
+- **Recognition cues:** Find the shortest **contiguous** subarray whose sum reaches a target; all values are positive, so expanding cannot lower the sum and shrinking cannot raise it.
 - **Attempt cap:** 35 minutes
-- **Target implementation:** Use a dictionary from a canonical character-count signature (for example, a 26-count tuple) to a list of strings.
-- **Invariant to state before coding:** Every anagram produces the same signature; strings with differing signatures cannot belong to the same group.
+- **Target implementation:** Expand the right boundary and add to a running sum; while the sum is at least `target`, record the length and advance the left boundary.
+- **Invariant to state before coding:** The active window sum equals the values from `left` through `right`; whenever its sum is at least `target`, repeatedly shrinking it finds the shortest valid window ending at `right`.
 - [ ] Classified before coding
 - [ ] First attempt
 - [ ] Implemented independently
 - [ ] Explained invariant and complexity
 - [ ] Review scheduled
 
-### 2. Longest Substring Without Repeating Characters
-- **LeetCode:** [Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/)
+### 2. Longest Repeating Character Replacement
+- **LeetCode:** [Longest Repeating Character Replacement](https://leetcode.com/problems/longest-repeating-character-replacement/)
 - **Difficulty:** Medium
-- **Primary pattern:** Sliding window + hash map
-- **Recognition cues:** Longest **contiguous substring** under a validity constraint; repeated values invalidate a window; answer is the best valid window length.
+- **Primary pattern:** Sliding window + frequency counts
+- **Recognition cues:** Find the longest **contiguous substring** that can be made uniform with at most `k` replacements; the fewest replacements needed is window length minus the most frequent character's count.
 - **Attempt cap:** 35 minutes
-- **Target implementation:** Maintain a left boundary and a map of each character's most recent index; advance `left` only forward when a duplicate falls inside the active window.
-- **Invariant to state before coding:** The active window contains no duplicate characters, and `left` never moves backward.
+- **Target implementation:** Expand right while counting characters and tracking `max_frequency`; while `window_length - max_frequency > k`, advance left and decrement its count.
+- **Invariant to state before coding:** The active window requires at most `k` replacements to become all one character; `left` never moves backward.
 - [ ] Classified before coding
 - [ ] First attempt
 - [ ] Implemented independently
@@ -49,25 +49,25 @@ Week 1's problems are deliberately basic pattern primers. This week moves direct
 
 ## Stretch problem — only if time remains
 
-### 3. 3Sum
-- **LeetCode:** [3Sum](https://leetcode.com/problems/3sum/)
+### 3. Subarray Product Less Than K
+- **LeetCode:** [Subarray Product Less Than K](https://leetcode.com/problems/subarray-product-less-than-k/)
 - **Difficulty:** Medium
-- **Primary pattern:** Sorting + fixed index + two pointers
-- **Recognition cues:** Find unique value triplets under a target sum; sorting enables monotonic pointer movement and duplicate skipping.
+- **Primary pattern:** Sliding window + running product
+- **Recognition cues:** Count contiguous subarrays with a product under a threshold; all numbers are positive, so growing the window can only increase the product.
 - **Attempt cap:** 35 minutes
-- **Target implementation:** Sort; fix the first number; use inward-moving left/right pointers for the remaining target; skip duplicates at every level.
-- **Invariant to state before coding:** For a fixed first value in sorted order, moving the left pointer raises the pair sum and moving the right pointer lowers it.
+- **Target implementation:** Expand the right boundary; while the product is at least `k`, divide out the left value and advance left; add the current window length to the answer.
+- **Invariant to state before coding:** The active window product is less than `k`; every suffix ending at `right` is therefore also valid.
 - [ ] Attempted
 - [ ] Implemented independently
-- [ ] Explained duplicate handling
+- [ ] Explained why the window length counts valid suffixes
 
 ## Completion notes
 
 Add concise notes after each attempt. Do not paste a full solution.
 
-### Group Anagrams
-- **LeetCode:** [Group Anagrams](https://leetcode.com/problems/group-anagrams/)
-- **Pattern:** Hash map + canonical representation
+### Minimum Size Subarray Sum
+- **LeetCode:** [Minimum Size Subarray Sum](https://leetcode.com/problems/minimum-size-subarray-sum/)
+- **Pattern:** Sliding window + running sum
 - **Recognition cues:**
 - **Brute force:**
 - **Optimal idea / invariant:**
@@ -75,9 +75,9 @@ Add concise notes after each attempt. Do not paste a full solution.
 - **Mistake or insight:**
 - **Review dates:** 2–3 days / 2 weeks / 1–2 months
 
-### Longest Substring Without Repeating Characters
-- **LeetCode:** [Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/)
-- **Pattern:** Sliding window + hash map
+### Longest Repeating Character Replacement
+- **LeetCode:** [Longest Repeating Character Replacement](https://leetcode.com/problems/longest-repeating-character-replacement/)
+- **Pattern:** Sliding window + frequency counts
 - **Recognition cues:**
 - **Brute force:**
 - **Optimal idea / invariant:**
@@ -85,9 +85,9 @@ Add concise notes after each attempt. Do not paste a full solution.
 - **Mistake or insight:**
 - **Review dates:** 2–3 days / 2 weeks / 1–2 months
 
-### 3Sum (stretch)
-- **LeetCode:** [3Sum](https://leetcode.com/problems/3sum/)
-- **Pattern:** Sorting + two pointers
+### Subarray Product Less Than K (stretch)
+- **LeetCode:** [Subarray Product Less Than K](https://leetcode.com/problems/subarray-product-less-than-k/)
+- **Pattern:** Sliding window + running product
 - **Recognition cues:**
 - **Brute force:**
 - **Optimal idea / invariant:**
@@ -98,13 +98,13 @@ Add concise notes after each attempt. Do not paste a full solution.
 ## Week-end review
 
 - [ ] I named a plausible pattern before looking at hints or solutions.
-- [ ] I can distinguish a substring/sliding-window problem from a general hash-map problem.
-- [ ] I can state the window invariant for Longest Substring Without Repeating Characters.
-- [ ] I can explain why sorting enables two pointers for 3Sum.
-- [ ] I re-solved Group Anagrams cold.
+- [ ] I can distinguish a shrinking-window problem from a general hash-map or prefix-sum problem.
+- [ ] I can state why positive values make shrinking valid for Minimum Size Subarray Sum.
+- [ ] I can derive the replacement count, `window_length - max_frequency`, for Longest Repeating Character Replacement.
+- [ ] I re-solved Minimum Size Subarray Sum cold.
 
 ### Next-week decision
 
-- If the sliding-window invariant and pointer moves are clear: continue with **Minimum Size Subarray Sum** and **Longest Repeating Character Replacement**.
-- If window boundaries or duplicate handling were unreliable: repeat sliding window with 2–3 targeted problems before increasing difficulty.
+- If lower-bound and upper-bound window invariants are clear: continue with **Subarray Sum Equals K** and **Merge Intervals**.
+- If window boundaries or the role of positive values were unreliable: repeat sliding window with 2–3 targeted problems before moving to prefix sums.
 - Notes for next week:
